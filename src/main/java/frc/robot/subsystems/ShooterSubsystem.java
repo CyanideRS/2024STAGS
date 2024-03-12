@@ -13,7 +13,7 @@ public class ShooterSubsystem extends SubsystemBase{
     private final CANSparkMax shooterAngle;
     private final CANSparkMax shooterTop;
     private final CANSparkMax shooterBottom;
-    //private final CANcoder shooterPivot;
+    private final CANcoder shooterPivot;
 
 
     public ShooterSubsystem() {
@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase{
         shooterBottom.setIdleMode(CANSparkMax.IdleMode.kBrake);
         shooterBottom.setInverted(true);
         shooterBottom.setSmartCurrentLimit(30);
-       // shooterPivot = new CANcoder(25);
+        shooterPivot = new CANcoder(25);
     }
     public void setShooterWheels(double power) {
         shooterTop.set(power);
@@ -44,10 +44,11 @@ public class ShooterSubsystem extends SubsystemBase{
     public void stopPivot() {
         shooterAngle.set(0);
     }
-   // public void getShooterPosition() {
-        //var absolutePositionSignal = shooterPivot.getAbsolutePosition();
-        //var absolutePositionValue = absolutePositionSignal.getUnits();
-   // }
+    public double getShooterPosition() {
+        var absolutePositionSignal = shooterPivot.getAbsolutePosition();
+        double absolutePositionValue = absolutePositionSignal.getValueAsDouble();
+        return absolutePositionValue * 360;
+    }
 
     public Command manualShoot(double power) {
         return run(() -> setShooterWheels(power));
@@ -63,6 +64,11 @@ public class ShooterSubsystem extends SubsystemBase{
             () -> {
                 stopPivot();
             });
+    }
+    @Override
+    public void periodic()
+    {
+         SmartDashboard.putNumber("Shooter Position", getShooterPosition());
     }
     
 }
