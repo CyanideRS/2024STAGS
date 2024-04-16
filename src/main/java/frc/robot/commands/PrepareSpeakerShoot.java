@@ -27,7 +27,7 @@ public class PrepareSpeakerShoot extends Command {
   @Override
   public void initialize() {
     // Set launch wheel to speed, keep feed wheel at 0 to let launch wheel spin up.
-    m_shooter.setShooterWheels(0.75);
+    m_shooter.setShooterWheels(0.65);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

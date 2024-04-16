@@ -31,8 +31,9 @@ public class AmpShoot extends Command {
   @Override
   public void initialize() {
     // Set the wheels to launching speed
-    m_shooter.setShooterWheels(0.1);
-    m_superstructure.setFeeder(0.3);
+    m_shooter.setBottomWheel(0.3);
+    m_shooter.setTopWheel(0.15);
+    m_superstructure.setFeeder(0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

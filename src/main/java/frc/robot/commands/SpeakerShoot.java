@@ -31,7 +31,7 @@ public class SpeakerShoot extends Command {
   @Override
   public void initialize() {
     // Set the wheels to launching speed
-    m_shooter.setShooterWheels(0.75);
+    m_shooter.setShooterWheels(0.65);
     m_superstructure.setFeeder(0.8);
   }
 

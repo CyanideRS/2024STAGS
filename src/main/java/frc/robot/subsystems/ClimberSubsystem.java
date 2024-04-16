@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,16 +9,13 @@ import frc.robot.Constants;
 
 
 public class ClimberSubsystem extends SubsystemBase {
-    private final CANSparkMax leftClimber;
-    private final CANSparkMax rightClimber;
+    private final TalonFX leftClimber = new TalonFX(Constants.ClimberConstants.ClimberLeftMotorID, "rio");
+    private final TalonFX rightClimber = new TalonFX(Constants.ClimberConstants.ClimberRightMotorID, "rio");
 
     public ClimberSubsystem() {
-        leftClimber = new CANSparkMax(Constants.ClimberConstants.ClimberLeftMotorID, CANSparkLowLevel.MotorType.kBrushless);
-        leftClimber.restoreFactoryDefaults();
-        leftClimber.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        rightClimber = new CANSparkMax(Constants.ClimberConstants.ClimberRightMotorID, CANSparkLowLevel.MotorType.kBrushless);
-        rightClimber.restoreFactoryDefaults();
-        rightClimber.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        leftClimber.setNeutralMode(NeutralModeValue.Brake);
+        rightClimber.setNeutralMode(NeutralModeValue.Brake);
+        rightClimber.setInverted(true);
     }
     public void runLeftClimber(double power) {
         leftClimber.set(power);

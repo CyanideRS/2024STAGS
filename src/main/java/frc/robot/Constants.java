@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import swervelib.math.Matter;
@@ -22,6 +23,9 @@ public final class Constants {
             new CommandXboxController(DriveteamConstants.kDriverControllerPort);
   public static final CommandXboxController OperatorController =
             new CommandXboxController(DriveteamConstants.kOperatorControllerPort);
+
+  public static final boolean debug = true;
+  
   //Robot Constants for calculations
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
@@ -43,20 +47,29 @@ public final class Constants {
 
   public static class GroundIntakeConstants {
     //Intake Motor CAN IDs
-    public static final int IntakeDeployMotorID = 9;
-    public static final int IntakeRollerMotorID = 10;
+    public static final int IntakeDeployMotorID = 12;
+    public static final int IntakeRollerMotorID = 11;
   }
 
   public static class FeederConstants {
     //Feeder Motor CAN IDs
-    public static final int FeederRollerMotorID = 11;
+    public static final int FeederRollerMotorID = 10;
   }
 
   public static class ShooterConstants{
     //Shooter Motor CAN IDs
-    public static final int ShooterAngleMotorID = 12;
+    public static final int ShooterAngleMotorID = 9;
     public static final int ShooterTopMotorID = 13;
     public static final int ShooterBottomMotorID = 14;
+  }
+
+  public static class LimelightConstants {
+    //Limelight mounting information
+    public static final boolean limelightEnabled = true;
+    public static final double limelightAngle = 5;
+    public static final double limelightHeight = 5;
+    public static final double limelightXOffsetMeters = 0.0;
+    public static final double limelightYOffsetMeters = 0.0;
   }
 
   public static class ClimberConstants{
@@ -67,7 +80,7 @@ public final class Constants {
 
   public static final class AutonConstants {
     //Constants for Autonomous Motor Control
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(5, 0, 0);
     public static final PIDConstants ANGLE_PID = new PIDConstants(0, 0, 0);
   }
 

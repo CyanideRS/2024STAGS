@@ -61,7 +61,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
     NamedCommands.registerCommand("stopFeeder", m_superstructure.stopFeeder());
     NamedCommands.registerCommand("zeroGyro", Commands.runOnce(drivebase::zeroGyro));
-    drivebase.setupPathPlanner();
     configureBindings();
   }
   private void configureBindings() {
@@ -78,6 +77,7 @@ public class RobotContainer {
     Constants.DriverController.rightBumper().whileTrue(m_climber.runRight(-0.6));
     Constants.DriverController.povUp().whileTrue(new BothClimbers(m_climber));
     Constants.DriverController.povDown().whileTrue(new BothClimbersDown(m_climber));
+
     //Secondary Operator Controller
     Constants.OperatorController.y().whileTrue(new PSIntake(m_shooter, m_superstructure));
     Constants.OperatorController.x().whileTrue(new GroundIntake(m_intake, m_superstructure));
@@ -85,16 +85,20 @@ public class RobotContainer {
                                         new PrepareSpeakerShoot(m_shooter)
                                         .andThen(new WaitCommand(1))
                                         .andThen (new SpeakerShoot(m_shooter, m_superstructure))
+                                        .andThen(new WaitCommand(1))
+                                        .andThen(Commands.parallel(m_shooter.stopShooter(),m_superstructure.stopFeeder()))
                                         .handleInterrupt(() -> Commands.parallel(m_shooter.stopShooter(),m_superstructure.stopFeeder())));
     Constants.OperatorController.a().whileTrue(
                                         new PrepareAmpShoot(m_shooter)
-                                        .andThen(new WaitCommand(1))
+                                        .andThen(new WaitCommand(1.0))
                                         .andThen (new AmpShoot(m_shooter, m_superstructure))
                                         .handleInterrupt(() -> m_shooter.stopShooter()));    
     Constants.OperatorController.leftBumper().onTrue(m_intake.rotateIntake(-0.2)).onFalse(m_intake.stopRotate());
     Constants.OperatorController.rightBumper().onTrue(m_intake.rotateIntake(0.2)).onFalse(m_intake.stopRotate());
-   // Constants.OperatorController.leftTrigger().whileTrue(m_shooter.rotateShooter(-0.15));
-   // Constants.OperatorController.rightTrigger().whileTrue(m_shooter.rotateShooter(0.15));
+    Constants.OperatorController.leftTrigger().whileTrue(m_shooter.rotateShooter(-0.15));
+    Constants.OperatorController.rightTrigger().whileTrue(m_shooter.rotateShooter(0.15));
+    Constants.OperatorController.povUp().whileTrue(new BothClimbers(m_climber));
+    Constants.OperatorController.povDown().whileTrue(new BothClimbersDown(m_climber));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

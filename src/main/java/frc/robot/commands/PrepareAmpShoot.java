@@ -27,7 +27,8 @@ public class PrepareAmpShoot extends Command {
   @Override
   public void initialize() {
     // Set launch wheel to speed, keep feed wheel at 0 to let launch wheel spin up.
-    m_shooter.setShooterWheels(0.1);
+    m_shooter.setBottomWheel(0.3);
+    m_shooter.setTopWheel(0.15);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
